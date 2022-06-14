@@ -1,7 +1,9 @@
 "use strict"
 
+/*
 const inputRub = document.querySelector("#rub");
 const inputUsd = document.querySelector("#usd");
+
 
 inputRub.addEventListener("input",()=>{     
     const request = new XMLHttpRequest(); // создали новый обьект (конструктор)
@@ -14,7 +16,7 @@ inputRub.addEventListener("input",()=>{
     
     // Вариант 1 
     
-    /*request.addEventListener("readystatechange", ()=>{
+    request.addEventListener("readystatechange", ()=>{
         if (request.readyState === 4 && request.status === 200) {
             console.log(request.response);
             const data = JSON.parse(request.response);
@@ -22,7 +24,7 @@ inputRub.addEventListener("input",()=>{
         } else {
             inputUsd.value = "Что то пошло не так";
         }
-    })*/
+    })
     
     // Вариант 2 (проще)
     request.addEventListener("load", ()=>{
@@ -32,6 +34,8 @@ inputRub.addEventListener("input",()=>{
           } else {
               console.log(inputUsd.value = "Что то пошло не так")
           }
+    });
+
     });
 
     // Свойства обьекта XMLHTTPREQUEST
@@ -45,7 +49,32 @@ inputRub.addEventListener("input",()=>{
     // readystatechange - событие отслеживает статус готовности нашего запроса в данный момент
     // load - срабатывает когда запрос полностью загрузился и мы получили результат
 
-    
+
+    */
 
 
+
+// FETCH - ПРИМЕР-----------------------------------
+
+const inputRub = document.querySelector("#rub");
+const inputUsd = document.querySelector("#usd");
+
+inputRub.addEventListener("input", () => {
+    fetch("current.json")
+        .then(data => data.json())
+        .then(data => {
+            inputUsd.value = (+inputRub.value / data.current.usd).toFixed(2)
+        }).catch(() => {
+            inputUsd.value = "Ошибка!"
+        })
+})
+
+inputUsd.addEventListener("input", () => {
+    fetch("current.json")
+        .then(data => data.json())
+        .then(data => {
+            inputRub.value = (+inputUsd.value * data.current.usd).toFixed(2)
+        }).catch(() => {
+            inputUsd.value = "Ошибка!"
+        })
 })
