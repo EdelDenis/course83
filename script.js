@@ -59,7 +59,7 @@ inputRub.addEventListener("input",()=>{
 const inputRub = document.querySelector("#rub");
 const inputUsd = document.querySelector("#usd");
 
-inputRub.addEventListener("input", () => {
+/*inputRub.addEventListener("input", () => {
     fetch("current.json")
         .then(data => data.json())
         .then(data => {
@@ -78,3 +78,14 @@ inputUsd.addEventListener("input", () => {
             inputUsd.value = "Ошибка!"
         })
 })
+*/
+
+// Axios вариант (библиотека)
+
+
+axios.get("current.json")
+    .then(data => {
+        inputRub.addEventListener("input", () => {
+            inputUsd.value = (+inputRub.value / data.data.current.usd).toFixed(2)
+        });
+    });
